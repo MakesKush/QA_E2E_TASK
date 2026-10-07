@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/browser';
 import { LoginPage } from '../pages/login-page';
 import { config } from '../configs/config';
 import { logger } from '../utils/logger';
@@ -13,7 +13,7 @@ test('Open Login Portal', async ({ page }) => {
 
   await test.step('Verify login portal is ready', async () => {
     await expect(page).toHaveURL(`${config.baseURL}/user/login`);
-    await expect(page.getByRole('heading', { name: 'Login', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Create a Negotiator account', exact: true })).toBeVisible();
+    await expect(loginPage.title).toBeVisible();
+    await expect(loginPage.createAccountButton).toBeVisible();
   });
 });

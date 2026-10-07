@@ -13,6 +13,8 @@ export class LoginPage extends BasePage {
   private loginButton = () => this.page.locator('button[data-automation="login-button-layout-login"]');
   private errorMessage = () => this.page.locator('div.error span');
 
+  readonly title = this.page.getByRole('heading', { name: 'Login', exact: true });
+
   readonly createAccountButton = this.page.getByRole('button', {
     name: 'Create a Negotiator account',
     exact: true,
