@@ -17,7 +17,7 @@ test.use({
   },
 });
 
-test('Register a negotiator with an avatar and activate the account', async ({ page, context }) => {
+test('Register a negotiator with an avatar and activate the account', async ({ page, context }, testInfo) => {
   test.setTimeout(config.registrationTimeout);
   getMailcatcherCredentials();
 
@@ -87,5 +87,9 @@ test('Register a negotiator with an avatar and activate the account', async ({ p
     await expect(profile.lastName).toHaveValue(user.lastName);
     await expect(profile.headerAvatar).toBeVisible();
     await expect(profile.headerAvatar).toHaveAttribute('src', avatarSource);
+    await testInfo.attach('activated-profile', {
+      body: await activatedPage.screenshot({ fullPage: true }),
+      contentType: 'image/png',
+    });
   });
 });
