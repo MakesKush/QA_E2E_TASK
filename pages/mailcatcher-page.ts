@@ -1,15 +1,21 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, Response } from '@playwright/test';
 import { BasePage } from './base-page';
 import { config } from '../configs/config';
 import { logger } from '../utils/logger';
 
 export class MailcatcherPage extends BasePage {
+  readonly inbox = this.page.getByRole('table');
   readonly recipient = this.page.locator('#message dd.to');
   readonly subject = this.page.locator('#message dd.subject');
   readonly activationLink = this.page.frameLocator('iframe.body').getByRole('link', {
     name: 'complete registration',
     exact: true,
   });
+
+  async open(): Promise<Response | null> {
+    logger.info('Open MailCatcher');
+    return this.page.goto('/mailcatcher');
+  }
 
   registrationMessage(email: string): Locator {
     return this.page.getByRole('row').filter({

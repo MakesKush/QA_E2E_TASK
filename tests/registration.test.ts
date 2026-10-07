@@ -66,7 +66,9 @@ test('Register a negotiator with an avatar and activate the account', async ({ p
   const mailcatcher = new MailcatcherPage(await context.newPage());
 
   await test.step('Find and verify the registration email in MailCatcher', async () => {
-    await mailcatcher.navigate('/mailcatcher/');
+    const response = await mailcatcher.open();
+    expect(response?.status(), 'MailCatcher access failed; check the supplied username and password without quotes or backticks').toBe(200);
+    await expect(mailcatcher.inbox).toBeVisible();
     await mailcatcher.openRegistrationMessage(user.email);
     logger.info('Verify registration email recipient and subject');
     await expect(mailcatcher.recipient).toHaveText(`<${user.email}>`);
