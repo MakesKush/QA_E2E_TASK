@@ -3,19 +3,17 @@ import { LoginPage } from '../pages/login-page';
 import { config } from '../configs/config';
 import { logger } from '../utils/logger';
 
-test.describe.parallel('Login Tests', () => {
-    test.beforeEach(async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.navigate(config.baseURL);
-    });
+test('Open Login Portal', async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-    test('Open Login Portal', async ({ page }) => { 
-        await test.step('Start test', async () => {
-            logger.info('Starting test');
-        });
+  await test.step('Open login page', async () => {
+    logger.info('Open the login portal');
+    await loginPage.navigate('/user/login');
+  });
 
-        await test.step('Open Login Portal', async () => {
-            const loginPage = new LoginPage(page);
-        });
-    });
+  await test.step('Verify login portal is ready', async () => {
+    await expect(page).toHaveURL(`${config.baseURL}/user/login`);
+    await expect(page.getByRole('heading', { name: 'Login', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Create a Negotiator account', exact: true })).toBeVisible();
+  });
 });

@@ -3,35 +3,28 @@ import { config } from './configs/config';
 
 export default defineConfig({
   timeout: config.globalTimeout,
+  expect: { timeout: config.defaultTimeout },
   testDir: './tests',
   outputDir: 'test-results',
   retries: 0,
   reporter: [['list'], ['allure-playwright']],
-
   use: {
     headless: config.headless,
     baseURL: config.baseURL,
-    viewport: null,  
+    viewport: null,
+    actionTimeout: config.defaultTimeout,
+    navigationTimeout: 30000,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
   },
-
-   
   projects: [
     {
       name: 'msedge',
       use: {
-         
         browserName: 'chromium',
         channel: 'msedge',
-        launchOptions: {
-          args: [
-            '--start-maximized',
-             
-             
-          ],
-        },
+        launchOptions: { args: ['--start-maximized'] },
       },
     },
     {
@@ -39,12 +32,8 @@ export default defineConfig({
       use: {
         browserName: 'chromium',
         launchOptions: {
-          args: [
-            '--start-maximized',
-             
-             
-          ],
-          ignoreDefaultArgs: ['--disable-extensions'],  
+          args: ['--start-maximized'],
+          ignoreDefaultArgs: ['--disable-extensions'],
         },
       },
     },
@@ -53,12 +42,9 @@ export default defineConfig({
       use: {
         browserName: 'firefox',
         viewport: null,
-        launchOptions: {
-           
-        },
+        launchOptions: {},
       },
     },
   ],
-
   workers: 4,
 });
