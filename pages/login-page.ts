@@ -13,6 +13,16 @@ export class LoginPage extends BasePage {
   private loginButton = () => this.page.locator('button[data-automation="login-button-layout-login"]');
   private errorMessage = () => this.page.locator('div.error span');
 
+  readonly createAccountButton = this.page.getByRole('button', {
+    name: 'Create a Negotiator account',
+    exact: true,
+  });
+
+  async createNegotiatorAccount(): Promise<void> {
+    logger.info('Create a negotiator account');
+    await this.createAccountButton.click();
+  }
+
   async login(user: User): Promise<void> {
     logger.info(`Specify email: ${user.username}`);
     await this.emailInput().fill(user.username);
